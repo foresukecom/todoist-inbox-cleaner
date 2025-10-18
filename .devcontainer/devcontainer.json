@@ -1,0 +1,19 @@
+{
+  "dockerComposeFile": "compose.yml",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "donjayamanne.githistory", 
+        "eamodio.gitlens", 
+        "github.vscode-pull-request-github", 
+        "golang.go", 
+        "mhutchie.git-graph", 
+        "ms-ceintl.vscode-language-pack-ja", 
+        "seatonjiang.gitmoji-vscode", 
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}

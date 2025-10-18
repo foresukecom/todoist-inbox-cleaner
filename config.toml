@@ -1,0 +1,17 @@
+# 作者
+author = "xxx"
+
+# デバッグモードかどうか
+debug = true
+
+# RDBセクション (実際のサンプルでは使用しません)
+[rdb]
+type = "mysql"          # DBタイプ (例: mysql, postgres, sqlite3)
+host = "localhost"      # ホスト名またはIPアドレス
+port = 3306             # ポート番号 (MySQLのデフォルト例)
+user = "myuser"         # ユーザー名
+password = "mypassword" # パスワード
+dbName = "mydatabase"   # データベース名
+sslmode = "disable"     # SSL接続モード (例: "require", "disable", "prefer")
+maxConnections = 10     # コネクションプールの最大接続数
+timeout = "5s"          # 接続タイムアウト (文字列で秒数を指定)
