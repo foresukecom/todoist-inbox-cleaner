@@ -15,16 +15,15 @@ var (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "your_cli_app", // ★★★ ここをあなたのCLIアプリケーション名に置き換えてください ★★★
-	Short: "A sample Go CLI application with Cobra and Viper",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Use:   "todoist-inbox-cleaner",
+	Short: "TodoistのインボックスからURLを含むタスクを自動移動",
+	Long: `Todoist Inbox Cleaner は、Todoistのインボックス内のタスクをスキャンし、
+タイトルにURLが含まれるタスクを自動的に指定したプロジェクトに移動するCLIツールです。
 
-This application demonstrates basic CLI structure with Cobra and
-configuration management using Viper.`, // 説明を少し変更
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+使用例:
+  todoist-inbox-cleaner clean        インボックスを整理
+  todoist-inbox-cleaner info         設定内容を確認
+  todoist-inbox-cleaner version      バージョンを確認`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -62,9 +61,9 @@ func initViper() {
 	}
 
 	// 環境変数から設定を読み込む
-	// 例: YOURAPP_GREETING_PREFIX="Hi, " で greeting.prefix が設定される
-	viper.SetEnvPrefix("YOURAPP") // 環境変数名のプレフィックスを設定
-	viper.AutomaticEnv()          // 環境変数から値を読み込む（プレフィックス付きまたは自動的にマッピング可能なもの）
+	// 例: TODOIST_CLEANER_TODOIST_APITOKEN で todoist.apiToken が設定される
+	viper.SetEnvPrefix("TODOIST_CLEANER") // 環境変数名のプレフィックスを設定
+	viper.AutomaticEnv()                   // 環境変数から値を読み込む（プレフィックス付きまたは自動的にマッピング可能なもの）
 
 	viper.SetDefault("debug", false) // デバッグモードのデフォルト
 

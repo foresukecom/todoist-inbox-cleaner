@@ -1,0 +1,10 @@
+# 作者
+author = "xxx"
+
+# デバッグモードかどうか
+debug = true
+
+# Todoistセクション
+[todoist]
+apiToken = "YOUR_TODOIST_API_TOKEN"  # TodoistのAPIトークン
+targetProjectName = "あとで読む"      # URLを含むタスクの移動先プロジェクト名
