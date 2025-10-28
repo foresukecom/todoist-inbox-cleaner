@@ -33,12 +33,8 @@ var cleanCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		// Todoistクライアントを作成
-		client, err := todoist.NewClient(apiToken)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "エラー: Todoistクライアントの作成に失敗しました: %v\n", err)
-			os.Exit(1)
-		}
+		// Todoist REST APIクライアントを作成（タスク取得と移動の両方に使用）
+		client := todoist.NewRestClient(apiToken)
 
 		// 移動先プロジェクトを取得
 		targetProject, err := client.GetProjectByName(targetProjectName)
@@ -50,7 +46,7 @@ var cleanCmd = &cobra.Command{
 
 		fmt.Printf("移動先プロジェクト: %s (ID: %s)\n", targetProject.Name, targetProject.ID)
 
-		// インボックスのタスクを取得
+		// インボックスのタスクを取得（REST API使用）
 		inboxTasks, err := client.GetInboxTasks()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "エラー: インボックスタスクの取得に失敗しました: %v\n", err)
@@ -58,6 +54,16 @@ var cleanCmd = &cobra.Command{
 		}
 
 		fmt.Printf("インボックス内のタスク数: %d\n", len(inboxTasks))
+
+		// デバッグ: タスクの内容を表示
+		if viper.GetBool("debug") {
+			fmt.Println("\n--- デバッグ: インボックスタスク内容 ---")
+			for i, task := range inboxTasks {
+				hasURL := utils.ContainsURL(task.Content)
+				fmt.Printf("[%d] %s (URL: %v)\n", i+1, task.Content, hasURL)
+			}
+			fmt.Println("--- デバッグ終了 ---")
+		}
 
 		// URLを含むタスクを移動
 		movedCount := 0
@@ -67,6 +73,7 @@ var cleanCmd = &cobra.Command{
 				// 進捗表示を改善
 				fmt.Printf("  [%d/%d] 移動中: %s\n", i+1, len(inboxTasks), task.Content)
 
+				// Sync API v9を使用してタスクを移動
 				if err := client.MoveTaskToProject(task.ID, targetProject.ID); err != nil {
 					fmt.Fprintf(os.Stderr, "    警告: タスクの移動に失敗しました: %v\n", err)
 					failedCount++
